@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>باقر علي - مطور Backend</title>
+    <meta name="description" content="باقر علي - مطور Backend محترف، متخصص في بناء الأنظمة القوية والموثوقة وحلول تقنية مبتكرة.">
+    <meta property="og:title" content="باقر علي - مطور Backend" />
+    <meta property="og:description" content="باقر علي - مطور Backend محترف، متخصص في بناء الأنظمة القوية والموثوقة وحلول تقنية مبتكرة." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ar_AR" />
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Cairo', 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #f8fafc 60%, #e0e7ff 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .background-pattern {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .background-pattern svg {
+            width: 100vw; height: 100vh;
+            opacity: 0.18;
+        }
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #1e40af;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .nav-links a:hover {
+            color: #10b981;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: linear-gradient(90deg, #1e40af, #10b981);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .lang-toggle {
+            background: linear-gradient(135deg, #1e40af, #10b981);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(30,64,175,0.18);
+        }
+        .lang-toggle:hover {
+            transform: scale(1.06) translateY(-2px);
+            box-shadow: 0 4px 16px rgba(30,64,175,0.22);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 7rem 0 2rem;
+            position: relative;
+        }
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+        }
+        .hero-text h1.arabic-name {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: #1e40af;
+            text-shadow: 0 2px 8px #e0e7ef33;
+            letter-spacing: 2px;
+        }
+        .hero-text h1.english-name {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #1e40af 60%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 1px 2px #e0e7ef22;
+            letter-spacing: 2px;
+        }
+        .hero-text .subtitle {
+            font-size: 1.3rem;
+            color: #64748b;
+            margin-bottom: 1.2rem;
+            font-weight: 700;
+        }
+        .hero-text .quote {
+            font-size: 1.15rem;
+            color: #10b981;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        .hero-text p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .btn {
+            padding: 0.9rem 2.2rem;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 800;
+            transition: all 0.3s cubic-bezier(.4,2,.3,1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af, #10b981);
+            color: white;
+            box-shadow: 0 4px 16px rgba(30,64,175,0.18);
+        }
+        .btn-primary:hover {
+            transform: scale(1.07) translateY(-2px);
+            box-shadow: 0 8px 24px rgba(30,64,175,0.22);
+        }
+        .btn-secondary {
+            background: white;
+            color: #1e40af;
+            border: 2px solid #e2e8f0;
+        }
+        .btn-secondary:hover {
+            border-color: #10b981;
+            color: #10b981;
+            transform: scale(1.04) translateY(-1px);
+        }
+        .contact-info {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+        .contact-item:hover {
+            color: #1e40af;
+        }
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .profile-card {
+            background: rgba(255,255,255,0.7);
+            border-radius: 28px;
+            padding: 2.5rem 2rem 2rem 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.13);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+        }
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1e40af, #10b981, #8b5cf6);
+        }
+        .profile-img {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e40af, #10b981);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.7rem;
+            color: white;
+            font-weight: 900;
+            box-shadow: 0 8px 32px rgba(30,64,175,0.18);
+            border: 4px solid #fff;
+        }
+        .profile-card h3 {
+            font-size: 1.7rem;
+            font-weight: 900;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+        .profile-card p {
+            color: #6b7280;
+            font-weight: 700;
+        }
+        .section {
+            padding: 5rem 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #1e40af, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section-title p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .card {
+            background: rgba(255,255,255,0.7);
+            border-radius: 18px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: all 0.3s cubic-bezier(.4,2,.3,1);
+            border: 1px solid rgba(0,0,0,0.05);
+            backdrop-filter: blur(8px);
+        }
+        .card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+        }
+        .card-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #1e40af, #10b981);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.7rem;
+            color: #fff;
+        }
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+        .card p {
+            color: #6b7280;
+            line-height: 1.7;
+            font-weight: 600;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .skill-tag {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            color: #1e40af;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 0.95rem;
+            border: 1px solid rgba(30,64,175,0.1);
+            transition: all 0.3s cubic-bezier(.4,2,.3,1);
+        }
+        .skill-tag:hover {
+            background: linear-gradient(135deg, #1e40af, #10b981);
+            color: white;
+            transform: scale(1.07) translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30,64,175,0.18);
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .project-card {
+            background: rgba(255,255,255,0.7);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: all 0.3s cubic-bezier(.4,2,.3,1);
+            border: 1px solid rgba(0,0,0,0.05);
+            backdrop-filter: blur(8px);
+        }
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.13);
+        }
+        .project-header {
+            height: 8px;
+            background: linear-gradient(90deg, #1e40af, #10b981, #8b5cf6);
+        }
+        .project-content {
+            padding: 2rem;
+        }
+        .project-card h3 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+        .project-card p {
+            color: #6b7280;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .project-tag {
+            background: #f1f5f9;
+            color: #1e40af;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .stats {
+            background: linear-gradient(135deg, #1e40af, #10b981);
+            color: white;
+            padding: 4rem 0;
+            margin: 4rem 0;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+        .stat-item p {
+            font-size: 1.1rem;
+            opacity: 0.93;
+            font-weight: 700;
+        }
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        .footer p {
+            color: #9ca3af;
+        }
+        .hidden { display: none; }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.7s cubic-bezier(.4,2,.3,1) forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideInLeft 0.7s cubic-bezier(.4,2,.3,1) forwards;
+        }
+        @keyframes slideInLeft {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(30px);
+            animation: slideInRight 0.7s cubic-bezier(.4,2,.3,1) forwards;
+        }
+        @keyframes slideInRight {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 32px;
+            left: 32px;
+            z-index: 999;
+            background: linear-gradient(135deg,#1e40af,#10b981);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 16px rgba(30,64,175,0.18);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(.4,2,.3,1);
+        }
+        #backToTop:hover {
+            background: linear-gradient(135deg,#10b981,#1e40af);
+            transform: scale(1.12);
+        }
+        @media (max-width: 900px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+            .hero-image { margin-top: 2rem; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-text h1.arabic-name { font-size: 2.2rem; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .contact-info { flex-direction: column; gap: 1rem; }
+            .cards-grid, .projects-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        .english { direction: ltr; text-align: left; }
+        .english .nav-container { flex-direction: row; }
+        .english .hero-content { grid-template-columns: 1fr 1fr; }
+        .english .contact-info { flex-direction: row; }
+    </style>
+</head>
+<body>
+    <div class="background-pattern">
+        <svg><circle cx="20%" cy="20%" r="180" fill="#3b82f6"/><circle cx="80%" cy="80%" r="160" fill="#10b981"/><circle cx="60%" cy="40%" r="120" fill="#6366f1"/></svg>
+    </div>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" id="logo">BA</a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#about">عني</a></li>
+                <li><a href="#skills">المهارات</a></li>
+                <li><a href="#projects">المشاريع</a></li>
+                <li><a href="#contact">اتصل بي</a></li>
+            </ul>
+            <button class="lang-toggle" onclick="toggleLanguage()">
+                <span id="lang-text">English</span>
+            </button>
+        </div>
+    </nav>
+    <button id="backToTop" title="العودة للأعلى">↑</button>
+    <!-- Arabic Version -->
+    <div id="arabic-content">
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text slide-in-left">
+                        <h1 class="arabic-name">باقر علي</h1>
+                        <p class="subtitle">مطور Backend محترف</p>
+                        <p class="quote">"البرمجة ليست مجرد كود، بل فن في حل المشكلات."</p>
+                        <p>مهندس برمجيات متخصص في بناء الأنظمة القوية والموثوقة. أسعى لتقديم حلول تقنية مبتكرة تضمن الكفاءة والقابلية للتوسع.</p>
+                        <div class="hero-buttons">
+                            <a href="#projects" class="btn btn-primary">🚀 استعرض أعمالي</a>
+                            <a href="#contact" class="btn btn-secondary">📞 تواصل معي</a>
+                        </div>
+                        <div class="contact-info">
+                            <a href="mailto:baqerali313@gmail.com" class="contact-item"><span>📧</span><span>baqerali313@gmail.com</span></a>
+                            <div class="contact-item"><span>📍</span><span>الرصافة الثانية، بغداد</span></div>
+                        </div>
+                    </div>
+                    <div class="hero-image slide-in-right">
+                        <div class="profile-card floating">
+                            <div class="profile-img">BA</div>
+                            <h3>باقر علي</h3>
+                            <p>مطور Backend</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item"><h3>20+</h3><p>مشاريع مكتملة</p></div>
+                    <div class="stat-item"><h3>2+</h3><p>سنوات خبرة</p></div>
+                    <div class="stat-item"><h3>8+</h3><p>تقنيات متقنة</p></div>
+                   
+                </div>
+            </div>
+        </section>
+        <section class="section" id="about">
+            <div class="container">
+                <div class="section-title">
+                    <h2>نبذة عني</h2>
+                    <p>مطور برمجيات متخصص في تطوير الحلول التقنية المبتكرة</p>
+                </div>
+                <div class="cards-grid">
+                    <div class="card fade-in"><div class="card-icon">🎯</div><h3>التركيز على الجودة</h3><p>أهتم بكتابة كود نظيف وقابل للصيانة مع اتباع أفضل الممارسات في البرمجة</p></div>
+                    <div class="card fade-in"><div class="card-icon">⚡</div><h3>الأداء العالي</h3><p>أركز على تطوير تطبيقات سريعة وفعالة باستخدام أحدث التقنيات</p></div>
+                    <div class="card fade-in"><div class="card-icon">🔧</div><h3>حل المشاكل</h3><p>لديّ خبرة في تحليل وحل المشاكل التقنية المعقدة بطرق إبداعية</p></div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="skills">
+            <div class="container">
+                <div class="section-title">
+                    <h2>المهارات التقنية</h2>
+                    <p>التقنيات والأدوات التي أتقنها في تطوير التطبيقات</p>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-tag">Node.js</div>
+                    <div class="skill-tag">Express.js</div>
+                    <div class="skill-tag">Python</div>
+                    <div class="skill-tag">C#</div>
+                    <div class="skill-tag">PostgreSQL</div>
+                    <div class="skill-tag">Socket.IO</div>
+                    <div class="skill-tag">Redis</div>
+                    <div class="skill-tag">JWT</div>
+                    <div class="skill-tag">WebSocket</div>
+                    <div class="skill-tag">API Design</div>
+                    <div class="skill-tag">Database Design</div>
+                    <div class="skill-tag">System Architecture</div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="projects">
+            <div class="container">
+                <div class="section-title">
+                    <h2>المشاريع</h2>
+                    <p>مجموعة من المشاريع التي عملت عليها</p>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>REMOTE DISK (BACKEND)</h3><p>نظام لإدارة الملفات عن بُعد مع دعم تقنيات حديثة مثل WebSocket وRedis، ويحتوي على ميزات متقدمة لإدارة الملفات والتواصل الفوري.</p><div class="project-tags"><span class="project-tag">Node.js</span><span class="project-tag">Socket.IO</span><span class="project-tag">Redis</span><span class="project-tag">JWT</span></div><a href="https://github.com/noone313/remoteDisk" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>alpha-store</h3><p>متجر إلكتروني متكامل لعرض المنتجات وإدارة الطلبات مع لوحة تحكم، يدعم تصنيفات المنتجات وحالة الطلبات.</p><div class="project-tags"><span class="project-tag">Node.js</span><span class="project-tag">EJS</span><span class="project-tag">PostgreSQL</span></div><a href="https://github.com/noone313/alpha-store" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>terminal_framework</h3><p>إطار عمل لبناء تطبيقات الطرفية (CLI) مع دعم النصوص الملونة، الخيارات، مربعات الاختيار، وإدخال المستخدم.</p><div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">CLI</span><span class="project-tag">Tools</span></div><a href="https://github.com/noone313/terminal_framework" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>file_share</h3><p>تطبيق لمشاركة الملفات بين المستخدمين بطريقة آمنة وسهلة، مع واجهة استخدام بسيطة.</p><div class="project-tags"><span class="project-tag">JavaScript</span><span class="project-tag">Node.js</span></div><a href="https://github.com/noone313/file_share" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>Rock</h3><p>نظام لإدارة الموظفين مع ميزات أمان مثل تحديد معدل تسجيل الدخول، تشفير كلمات المرور، ومصادقة JWT.</p><div class="project-tags"><span class="project-tag">Node.js</span><span class="project-tag">EJS</span><span class="project-tag">PostgreSQL</span><span class="project-tag">JWT</span></div><a href="https://github.com/noone313/Rock" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>otp-1</h3><p>نظام توليد والتحقق من رموز OTP (كلمات المرور لمرة واحدة) للأمان والتحقق من الهوية.</p><div class="project-tags"><span class="project-tag">JavaScript</span><span class="project-tag">Node.js</span></div><a href="https://github.com/noone313/otp-1" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="contact">
+            <div class="container">
+                <div class="section-title">
+                    <h2>التعليم والتواصل</h2>
+                    <p>معلومات التعليم وطرق التواصل</p>
+                </div>
+                <div class="cards-grid">
+                    <div class="card fade-in"><div class="card-icon">🎓</div><h3>التعليم</h3><p><strong>بكالوريوس علوم الحاسوب</strong><br>جامعة الرافدين<br>2021 - 2025</p></div>
+                    <div class="card fade-in"><div class="card-icon">🌍</div><h3>اللغات</h3><p><strong>العربية:</strong> اللغة الأم<br><strong>الإنجليزية:</strong> متوسط<br>قادر على القراءة والفهم التقني</p></div>
+                    <div class="card fade-in"><div class="card-icon">📧</div><h3>تواصل معي</h3><p><strong>البريد الإلكتروني:</strong><br>baqerali313@gmail.com<br><strong>الموقع:</strong> الرصافة الثانية، بغداد</p></div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- English Version -->
+    <div id="english-content" class="hidden english">
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text slide-in-left">
+                        <h1 class="english-name">BAQER ALI</h1>
+                        <p class="subtitle">Professional Backend Developer</p>
+                        <p class="quote">"Programming is not just code, it's an art of problem solving."</p>
+                        <p>A Software Engineer specializing in building robust and reliable systems. I strive to provide innovative technical solutions that ensure efficiency and scalability.</p>
+                        <div class="hero-buttons">
+                            <a href="#projects" class="btn btn-primary">🚀 View My Work</a>
+                            <a href="#contact" class="btn btn-secondary">📞 Contact Me</a>
+                        </div>
+                        <div class="contact-info">
+                            <a href="mailto:baqerali313@gmail.com" class="contact-item"><span>📧</span><span>baqerali313@gmail.com</span></a>
+                            <div class="contact-item"><span>📍</span><span>AL-RUSAFA 2, BAGHDAD</span></div>
+                        </div>
+                    </div>
+                    <div class="hero-image slide-in-right">
+                        <div class="profile-card floating">
+                            <div class="profile-img">BA</div>
+                            <h3>BAQER ALI</h3>
+                            <p>Backend Developer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item"><h3>5+</h3><p>Completed Projects</p></div>
+                    <div class="stat-item"><h3>4+</h3><p>Years Experience</p></div>
+                    <div class="stat-item"><h3>8+</h3><p>Technologies</p></div>
+                    <div class="stat-item"><h3>100%</h3><p>Client Satisfaction</p></div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="about">
+            <div class="container">
+                <div class="section-title">
+                    <h2>About Me</h2>
+                    <p>Software developer specialized in developing innovative technical solutions</p>
+                </div>
+                <div class="cards-grid">
+                    <div class="card fade-in"><div class="card-icon">🎯</div><h3>Focus on Quality</h3><p>I care about writing clean and maintainable code following best programming practices</p></div>
+                    <div class="card fade-in"><div class="card-icon">⚡</div><h3>High Performance</h3><p>I focus on developing fast and efficient applications using the latest technologies</p></div>
+                    <div class="card fade-in"><div class="card-icon">🔧</div><h3>Problem Solving</h3><p>I have experience in analyzing and solving complex technical problems in creative ways</p></div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="skills">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Technical Skills</h2>
+                    <p>Technologies and tools I master in application development</p>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-tag">Node.js</div>
+                    <div class="skill-tag">Express.js</div>
+                    <div class="skill-tag">Python</div>
+                    <div class="skill-tag">C#</div>
+                    <div class="skill-tag">PostgreSQL</div>
+                    <div class="skill-tag">Socket.IO</div>
+                    <div class="skill-tag">Redis</div>
+                    <div class="skill-tag">JWT</div>
+                    <div class="skill-tag">WebSocket</div>
+                    <div class="skill-tag">API Design</div>
+                    <div class="skill-tag">Database Design</div>
+                    <div class="skill-tag">System Architecture</div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="projects">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Projects</h2>
+                    <p>A collection of projects I've worked on</p>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>REMOTE DISK (BACKEND)</h3><p>نظام لإدارة الملفات عن بُعد مع دعم تقنيات حديثة مثل WebSocket وRedis، ويحتوي على ميزات متقدمة لإدارة الملفات والتواصل الفوري.</p><div class="project-tags"><span class="project-tag">Node.js</span><span class="project-tag">Socket.IO</span><span class="project-tag">Redis</span><span class="project-tag">JWT</span></div><a href="https://github.com/noone313/remoteDisk" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>alpha-store</h3><p>متجر إلكتروني متكامل لعرض المنتجات وإدارة الطلبات مع لوحة تحكم، يدعم تصنيفات المنتجات وحالة الطلبات.</p><div class="project-tags"><span class="project-tag">Node.js</span><span class="project-tag">EJS</span><span class="project-tag">PostgreSQL</span></div><a href="https://github.com/noone313/alpha-store" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>terminal_framework</h3><p>إطار عمل لبناء تطبيقات الطرفية (CLI) مع دعم النصوص الملونة، الخيارات، مربعات الاختيار، وإدخال المستخدم.</p><div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">CLI</span><span class="project-tag">Tools</span></div><a href="https://github.com/noone313/terminal_framework" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>file_share</h3><p>تطبيق لمشاركة الملفات بين المستخدمين بطريقة آمنة وسهلة، مع واجهة استخدام بسيطة.</p><div class="project-tags"><span class="project-tag">JavaScript</span><span class="project-tag">Node.js</span></div><a href="https://github.com/noone313/file_share" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>Rock</h3><p>نظام لإدارة الموظفين مع ميزات أمان مثل تحديد معدل تسجيل الدخول، تشفير كلمات المرور، ومصادقة JWT.</p><div class="project-tags"><span class="project-tag">Node.js</span><span class="project-tag">EJS</span><span class="project-tag">PostgreSQL</span><span class="project-tag">JWT</span></div><a href="https://github.com/noone313/Rock" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                    <div class="project-card fade-in"><div class="project-header"></div><div class="project-content"><h3>otp-1</h3><p>نظام توليد والتحقق من رموز OTP (كلمات المرور لمرة واحدة) للأمان والتحقق من الهوية.</p><div class="project-tags"><span class="project-tag">JavaScript</span><span class="project-tag">Node.js</span></div><a href="https://github.com/noone313/otp-1" target="_blank" class="btn btn-secondary" style="margin-top:1rem;">رابط المشروع</a></div></div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="contact">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Education & Contact</h2>
+                    <p>Education information and contact methods</p>
+                </div>
+                <div class="cards-grid">
+                    <div class="card fade-in"><div class="card-icon">🎓</div><h3>Education</h3><p><strong>Bachelor of Computer Sciences</strong><br>AL-RAFIDAIN UNIVERSITY<br>2021 - 2025</p></div>
+                    <div class="card fade-in"><div class="card-icon">🌍</div><h3>Languages</h3><p><strong>Arabic:</strong> Native<br><strong>English:</strong> Intermediate<br>Able to read and understand technical materials</p></div>
+                    <div class="card fade-in"><div class="card-icon">📧</div><h3>Contact Me</h3><p><strong>Email:</strong><br>baqerali313@gmail.com<br><strong>Location:</strong> AL-RUSAFA 2, BAGHDAD</p></div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Baqer Ali. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+    <script>
+        let isArabic = true;
+        function toggleLanguage() {
+            const arabicContent = document.getElementById('arabic-content');
+            const englishContent = document.getElementById('english-content');
+            const langText = document.getElementById('lang-text');
+            const body = document.body;
+            const navLinks = document.getElementById('nav-links');
+            if (isArabic) {
+                arabicContent.classList.add('hidden');
+                englishContent.classList.remove('hidden');
+                langText.textContent = 'العربية';
+                body.style.direction = 'ltr';
+                body.classList.add('english');
+                navLinks.innerHTML = `
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                `;
+                isArabic = false;
+            } else {
+                englishContent.classList.add('hidden');
+                arabicContent.classList.remove('hidden');
+                langText.textContent = 'English';
+                body.style.direction = 'rtl';
+                body.classList.remove('english');
+                navLinks.innerHTML = `
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#about">عني</a></li>
+                    <li><a href="#skills">المهارات</a></li>
+                    <li><a href="#projects">المشاريع</a></li>
+                    <li><a href="#contact">اتصل بي</a></li>
+                `;
+                isArabic = true;
+            }
+        }
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            // Back to top button
+            document.getElementById('backToTop').style.display = window.scrollY > 200 ? 'block' : 'none';
+        });
+        document.getElementById('backToTop').onclick = () => window.scrollTo({top:0,behavior:'smooth'});
+        // Smooth scrolling for navigation links
+        document.addEventListener('click', function(e) {
+            if (e.target.getAttribute && e.target.getAttribute('href') && e.target.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+                }
+            }
+        });
+        // Intersection Observer for animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.7s cubic-bezier(.4,2,.3,1), transform 0.7s cubic-bezier(.4,2,.3,1)';
+                observer.observe(el);
+            });
+            document.querySelectorAll('.slide-in-left').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateX(-30px)';
+                el.style.transition = 'opacity 0.7s cubic-bezier(.4,2,.3,1), transform 0.7s cubic-bezier(.4,2,.3,1)';
+                observer.observe(el);
+            });
+            document.querySelectorAll('.slide-in-right').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateX(30px)';
+                el.style.transition = 'opacity 0.7s cubic-bezier(.4,2,.3,1), transform 0.7s cubic-bezier(.4,2,.3,1)';
+                observer.observe(el);
+            });
+        });
+        // Add typing effect to hero title
+        function typeWriter(element, text, speed = 90) {
+            let i = 0;
+            element.innerHTML = '';
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+        window.addEventListener('load', function() {
+            const heroTitle = document.querySelector('.hero-text h1');
+            if (heroTitle) {
+                const originalText = heroTitle.textContent;
+                typeWriter(heroTitle, originalText, 90);
+            }
+        });
+    </script>
+</body>
+</html> 
